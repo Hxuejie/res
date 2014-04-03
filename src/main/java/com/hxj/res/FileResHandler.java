@@ -10,25 +10,31 @@ import java.io.OutputStream;
 
 import android.text.TextUtils;
 
-/** 默认资源操作类
+/** 文件资源操作类
  * @author Hxuejie */
-public class DefResHandler implements ResHandler<File> {
-	private static DefResHandler	instance	= new DefResHandler();
+public class FileResHandler implements ResHandler<File> {
+	private static FileResHandler	instance	= new FileResHandler();
 
-	public static final DefResHandler getInstance() {
+	public static final FileResHandler getInstance() {
 		return instance;
 	}
 
-	private String	ROOT_PATH	= "";
-	private String	PATH		= "";
+	private String	PATH	= File.separator;
 
-	DefResHandler() {}
+	FileResHandler() {}
 
 	/** 设置资源跟路径
 	 * @param path */
 	public synchronized void setRootPath(String path) {
-		ROOT_PATH = path == null ? "" : path;
-		createPath();
+		if (TextUtils.isEmpty(path)) {
+			path = File.separator;
+		}
+		else {
+			if (!path.endsWith(File.separator)) {
+				path = path + File.separator;
+			}
+		}
+		PATH = path;
 	}
 
 	@Override
@@ -129,16 +135,6 @@ public class DefResHandler implements ResHandler<File> {
 		while ((len = is.read(buff)) != -1) {
 			os.write(buff, 0, len);
 		}
-	}
-
-	private void createPath() {
-		if (!TextUtils.isEmpty(ROOT_PATH)) {
-			if (!ROOT_PATH.endsWith(File.separator)) {
-				PATH = ROOT_PATH + File.separator;
-				return;
-			}
-		}
-		PATH = ROOT_PATH;
 	}
 
 }

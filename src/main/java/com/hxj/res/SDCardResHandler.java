@@ -6,7 +6,7 @@ import android.os.Environment;
 
 /** SD卡资源操作类
  * @author Hxuejie */
-public class SDCardResHandler extends DefResHandler {
+public class SDCardResHandler extends FileResHandler {
 
 	@Override
 	public synchronized void setRootPath(String path) {
